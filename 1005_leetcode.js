@@ -1,21 +1,33 @@
+let QuickSort = function(nums, left, right)
+{
+    if (right-left <=0 )
+    {
+        return;
+    }
+    else
+    {
+        
+    }
+}
 var largestSumAfterKNegations = function(nums, k) {
     let maxSum = 0;
-    nums.sort((a,b) => a-b);
+    // nums.sort((a,b) => a-b);
+    QuickSort(nums,0, nums.length-1);
     console.log(nums);
-    for (let i=0; i<k; i++)
+    
+    let n = nums.length;
+    
+
+    while (k > 0)
     {
-        if (nums[i] == 0)
-        {
-            break;
-        }
-        else
-        {
-            nums[i] = -nums[i];
-        }
+        nums[0] = -nums[0];
+        // nums.sort((a,b) => a-b);
+        QuickSort(nums, 0, nums.length-1);
+        k -= 1;
     }
     for (let num of nums)
     {
-        maxSum += num;
+        maxSum += num; 
     }
     return maxSum;
 
