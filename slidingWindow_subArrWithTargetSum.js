@@ -10,16 +10,17 @@ let subArrWithTargetSum = function(nums, targetSum)
     for (end=0; end<n; end++ )
     {
         currentSum = currentSum + nums[end];
+         while (currentSum > targetSum)
+        {
+            currentSum = currentSum - nums[start];
+            ++start;
+        } 
         if (currentSum == targetSum)
         {
             return [start,end];
         }
 
-        while (currentSum > targetSum)
-        {
-            currentSum = currentSum - nums[start];
-            ++start;
-        } 
+       
 
        
         
