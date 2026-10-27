@@ -1,98 +1,88 @@
-let CountAnagramString = function(str, subStr)
+let isEqualStrAndAnagram = function(strMap, anagramMap)
+{
+    for (let [key, val] of strMap)
+    {
+        if (! anagramMap.has(key))
+        {
+            return false;
+        }
+        else if (anagramMap.has(key) && val!=anagramMap.get(key))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+let CountAnagramsInString = function(str, angagram)
 {
     let n = str.length;
-    let k = subStr.length;
+    let k = anagram.length;
+    let countAnagram = 0;
 
-    let currentDict = {};
-    let subDict = {};
+    let anagramMap = new Map();
+    let strMap = new Map();
 
-    let count = 0;
-
-    for (let i=0; i<k; i++)
+    for (let char of anagram)
     {
-        if (! (subStr[i] in subDict))
+        if (! anagramMap.has(char))
         {
-            subDict[subStr[i]] = 1;
+            anagramMap.set(char, 1);
         }
         else
         {
-            subDict[subStr[i]] = subDict[subStr[i]] + 1;
+            anagramMap.set(char, anagramMap.get(char)+1);
         }
     }
 
     for (let i=0; i<k; i++)
     {
-        if (! (str[i] in currentDict))
+        let char = str[i];
+        if (! strMap.has(char))
         {
-            currentDict[str[i]] = 1;
+            strMap.set(char, 1);
         }
         else
         {
-            currentDict[str[i]] = currentDict[str[i]] + 1;
+            strMap.set(char, strMap.get(char)+1);
         }
     }
 
-    let bool = true;
-    for (let char in currentDict)
+    if (isEqualStrAndAnagram(strMap,anagramMap))
     {
-        if (! (char in subDict))
-        {
-            bool = false;
-        }
-        else if (currentDict[char] != subDict[char])
-        {
-            bool = false;
-        }
-    }
-    if (bool == true)
-    {
-        count++;
+        countAnagram += 1;
     }
 
     for (let i=0; i<n-k; i++)
     {
-        bool = true;
-
-        let removeChar = str[i];
+        let deleteChar = str[i];
         let addChar = str[i+k];
 
-        currentDict[removeChar] = currentDict[removeChar] - 1;
-        if (currentDict[removeChar] == 0)
+        strMap.set(deleteChar, strMap.get(deleteChar)-1);
+        if (strMap.get(deleteChar) == 0)
         {
-            delete currentDict[removeChar];
+            strMap.delete(deleteChar);
         }
 
-        if (! (addChar in currentDict))
+        if (! strMap.has(addChar))
         {
-            currentDict[addChar] = 1;
+            strMap.set(addChar, 1);
         }
         else
         {
-            currentDict[addChar] = currentDict[addChar] + 1;
+            strMap.set(addChar, strMap.get(addChar)+1);
         }
 
-        for (let char in currentDict)
+        if (isEqualStrAndAnagram(strMap,anagramMap))
         {
-            if (! (char in subDict))
-            {
-                bool = false;
-                break;
-            }
-            else if (currentDict[char] != subDict[char])
-            {
-                bool = false;
-                break;
-            }
-        }
-        if (bool == true)
-        {
-            count++;
+            countAnagram += 1;
         }
     }
-    return count;
-}
-let str = 'tacoctacabcatt';
-let subStr = 'cat';
+    return countAnagram;
 
-let result = CountAnagramString(str, subStr);
-console.log(result);
+}
+
+let str = "versorevairlg";
+let anagram = "serve";
+
+let output = CountAnagramsInString(str, anagram);
+console.log(output);

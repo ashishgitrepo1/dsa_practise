@@ -1,24 +1,23 @@
-let subArrMaxProd = function(nums, k)
+let SubArray_Max_Product_Size_K = function(nums, k)
 {
     let n = nums.length;
-    let currentProd = 1;
+    let currentProduct = 1;
     for (let i=0; i<k; i++)
     {
-        currentProd = currentProd * nums[i];
+        currentProduct = currentProduct * nums[i];
     }
-    let maxProd = currentProd;
+    let maxProduct = currentProduct;
 
     for (let i=0; i<n-k; i++)
     {
-        currentProd = Math.floor(currentProd/nums[i]);
-        currentProd = currentProd*nums[i+k];
-
-        maxProd = Math.max(maxProd, currentProd);
+        currentProduct = Math.floor(currentProduct / nums[i]);
+        currentProduct = currentProduct * nums[i+k];
+        maxProduct = Math.max(maxProduct, currentProduct);
     }
-    return maxProd;
+    return maxProduct;
 }
-let nums = [60, 20, 10, 90, 50];
-let k = 1;
 
-let result = subArrMaxProd(nums,k);
-console.log(result);
+let nums = Array(40000).fill(1);
+let k = 5000;
+let output = SubArray_Max_Product_Size_K(nums, k);
+console.log(output);

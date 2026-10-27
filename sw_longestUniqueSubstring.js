@@ -8,7 +8,7 @@ let longestUniqueSubstring = function(str)
     let strMap = new Map();
     for (end=0; end<n; end++)
     {
-        console.log(strMap);
+        // console.log(strMap);
         if (! strMap.has(str[end]))
         {
             strMap.set(str[end],1);

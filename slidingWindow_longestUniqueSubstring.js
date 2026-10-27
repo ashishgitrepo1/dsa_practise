@@ -1,57 +1,49 @@
-let longestUniqueSubstring = function(str)
+let LongestUniqueSubstring = function(str)
 {
     let n = str.length;
+    let LongestSubstring = -Infinity;
+    let left = 0;
+    let right = 0;
+    let strMap = new Map();
 
-    let start = 0;
-    let end = 0;
-    let dict = {};
-
-    let currentUnique = 0;
-    let longestUnique = currentUnique;
-
-    let totalFrequency = function(dict)
+    for (right=0; right<n; right++)
     {
-        let total = 0;
-        for (let key in dict)
+        //console.log(strMap);
+        let char = str[right];
+        if (! strMap.has(char))
         {
-            total = total + dict[key];
+            strMap.set(char, 1);
         }
-        return total;
-    }
-
-    for (let end=0; end<n; end++)
-    {
-        if (! (str[end] in dict))
+        else
         {
-            dict[str[end]] = 1;
-            
-        }
-        else if (str[end] in dict)
-        {
-            dict[str[end]] = dict[str[end]] + 1;
-            while (totalFrequency(dict) > Object.keys(dict).length)
+            strMap.set(char, strMap.get(char)+1);
+            let currentWindowSize = right - left + 1;
+            // console.log("left, right,Window,map = ", left, right, currentWindowSize, strMap);
+            while (currentWindowSize > strMap.size)
             {
-                let removeChar = str[start];
-                dict[removeChar] = dict[removeChar] - 1;
-                if (dict[removeChar] == 0)
+                // let deleteChar = strMap.keys().next().value;
+                let deleteChar = str[left];
+                strMap.set(deleteChar, strMap.get(deleteChar)-1);
+                if (strMap.get(deleteChar) == 0)
                 {
-                    delete dict[removeChar];
+                    strMap.delete(deleteChar);
                 }
-                start++;
+                left += 1;
+                currentWindowSize -= left;
+                
+                
             }
-
-
+            
+           
         }
-        // console.log(dict);
-
-        currentUnique = Object.keys(dict).length;
-        longestUnique = Math.max(longestUnique, currentUnique);
-
+        LongestSubstring = Math.max(LongestSubstring, strMap.size);
+        
 
     }
-    return longestUnique;
-}
-let str = 'abcabcqbb';
+    return LongestSubstring;
 
-let result = longestUniqueSubstring(str);
-console.log(result);
+
+}
+let str = "zqzzzz";
+let output = LongestUniqueSubstring(str);
+console.log(output);

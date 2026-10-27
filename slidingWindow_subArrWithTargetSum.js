@@ -1,34 +1,25 @@
-let subArrWithTargetSum = function(nums, targetSum)
+let SubarrayWithTargetSum = function(nums, target)
 {
-    let start = 0;
-    let end;
-
     let n = nums.length;
-
+    let left = 0;
+    let right = 0;
     let currentSum = 0;
 
-    for (end=0; end<n; end++ )
+    for (right=0; right<n; right++)
     {
-        currentSum = currentSum + nums[end];
-         while (currentSum > targetSum)
+        currentSum += nums[right];
+        while (currentSum > target)
         {
-            currentSum = currentSum - nums[start];
-            ++start;
-        } 
-        if (currentSum == targetSum)
-        {
-            return [start,end];
+            currentSum -= nums[left];
+            left += 1;
         }
-
-       
-
-       
-        
+        if (currentSum == target)
+        {
+            return [left, right];
+        }
     }
-    return -1;
 }
 let nums = [3, 1, 4, 9, 2, 1, 7];
-let targetSum = 10;
-
-let result = subArrWithTargetSum(nums, targetSum);
-console.log(result);
+let target = 11;
+let output = SubarrayWithTargetSum(nums, target);
+console.log(output);

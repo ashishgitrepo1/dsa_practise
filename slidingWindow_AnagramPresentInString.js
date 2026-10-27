@@ -1,111 +1,81 @@
-let AnagramInStr = function(str, subStr)
+
+let isEqualStrAndAnagram = function(strMap, anagramMap)
 {
-    let currentdict = {};
-    let subDict = {};
-
+    for (let [key, val] of strMap)
+    {
+        if (val != anagramMap.get(key))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+let StringHasAnagram = function(str, anagram)
+{
+    let k = anagram.length;
     let n = str.length;
-    let k = subStr.length;
+    let anagramMap = new Map();
+    let strMap = new Map();
 
-    let bool = true;
-
-    for (let i=0; i<k; i++)
+    for (let char of anagram)
     {
-        if (! (str[i] in currentdict))
+        if (! anagramMap.has(char))
         {
-            currentdict[str[i]] = 1;
+            anagramMap.set(char, 1);
         }
         else
         {
-            currentdict[str[i]] = currentdict[str[i]] + 1;
+            anagramMap.set(char, anagramMap.get(char)+1);
         }
     }
 
     for (let i=0; i<k; i++)
     {
-        if (! (subStr[i] in subDict))
+        if (! (str[i] in strMap))
         {
-            subDict[subStr[i]] = 1;
+            strMap.set(str[i], 1);
         }
         else
         {
-            subDict[subStr[i]] = subDict[subStr[i]] + 1;
+            strMap.set(str[i], strMap.get(str[i])+1);
         }
     }
 
-    for (let char in currentdict)
-    {
-        if (! (char in subDict))
-        {
-            bool = false;
-        }
-        else if (currentdict[char] != subDict[char])
-        {
-            bool = false;
-        }
-    }
-
-    if (bool == true)
+    if (isEqualStrAndAnagram(strMap, anagramMap))
     {
         return true;
     }
-    
-
-    
 
     for (let i=0; i<n-k; i++)
     {
-        bool = true;
         let removeChar = str[i];
         let addChar = str[i+k];
 
-        currentdict[removeChar] = currentdict[removeChar] - 1;
-        if (currentdict[removeChar] == 0)
+        strMap.set(removeChar, strMap.get(removeChar)-1);
+        if (strMap.get(removeChar) == 0)
         {
-            delete currentdict[removeChar];
+            strMap.delete(removeChar);
         }
 
-        if (! (addChar in currentdict))
+        if (! strMap.has(addChar))
         {
-            currentdict[addChar] = 1;
+            strMap.set(addChar, 1);
         }
         else
         {
-            currentdict[addChar] = currentdict[addChar] + 1;
+            strMap.set(addChar, strMap.get(addChar)+1);
         }
 
-        console.log(currentdict);
-
-        for (let char in currentdict)
+        if (isEqualStrAndAnagram(strMap, anagramMap))
         {
-            if (! (char in subDict))
-            {
-                bool = false;
-            }
-            else if (currentdict[char] != subDict[char])
-            {
-                bool = false;
-            }
+            return true;
         }
-        if (bool == true)
-        {
-            break;
-        }
-
-
-
     }
-    if (bool == true)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return false;
 
 }
-let str = 'dermatoglyphics';
-let subStr = 'red';
+let str = "southernly";
+let anagram = "nerlysouth";
 
-let result = AnagramInStr(str, subStr);
-console.log(result);
+let output = StringHasAnagram(str, anagram);
+console.log(output);

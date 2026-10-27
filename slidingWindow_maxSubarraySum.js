@@ -1,24 +1,23 @@
-let subArrWithMaxSum = function(nums, k)
+let SubArray_Sum_Size_k = function(nums, k)
 {
-    let n = nums.length;
     let currentSum = 0;
+    let n = nums.length;
     for (let i=0; i<k; i++)
     {
-        currentSum = currentSum + nums[i];
+        currentSum += nums[i];
     }
     let maxSum = currentSum;
-
     for (let i=0; i<n-k; i++)
     {
-        currentSum = currentSum - nums[i];
-        currentSum = currentSum + nums[i+k];
+        currentSum -= nums[i];
+        currentSum += nums[i+k];
 
-        maxSum = Math.max(maxSum, currentSum);
+        maxSum = Math.max(currentSum, maxSum);
     }
     return maxSum;
+    
 }
-let nums = [20, 50, 10, 60, 80, 70]
-let k = 1;
-
-let result = subArrWithMaxSum(nums, k);
-console.log(result);
+let nums = Array(80000).fill(1);
+let k = 5000;
+let output = SubArray_Sum_Size_k(nums, k);
+console.log(output);

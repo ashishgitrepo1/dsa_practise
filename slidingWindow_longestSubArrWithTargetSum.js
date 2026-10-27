@@ -1,38 +1,32 @@
-let longestSubArrWithTargetSum = function(nums, targetSum)
+let SubarrayLargestWithTargetSum = function(nums, targetSum)
 {
-    //variable size sliding window hence use two pointers. 
-    //using sliding window because the solution involves sub array
-    let start = 0;
-    let end = 0;
-
     let n = nums.length;
+    let left = 0;
+    let right = 0;
 
-    let currentSubArray = -1;
-    let longestSubArray = currentSubArray;
     let currentSum = 0;
-
-    while (end<n)
+    let maxArraySize = -Infinity;
+    for (right=0; right<n; right++)
     {
-        currentSum = currentSum + nums[end];
-        
-
-        while(currentSum > targetSum)
+        currentSum += nums[right];
+        while (currentSum > targetSum)
         {
-            currentSum = currentSum - nums[start];
-            start++;
+            currentSum -= nums[left];
+            left += 1;
         }
         if (currentSum == targetSum)
         {
-            longestSubArray = Math.max(longestSubArray,end-start+1);
-           
+            let currentSizeArray = right-left+1;
+            maxArraySize = Math.max(maxArraySize,currentSizeArray);
         }
-        end++;
     }
-    // console.log(start,end);
-    return longestSubArray;
+    if (maxArraySize == -Infinity)
+    {
+        return -1;
+    }
+    return maxArraySize;
 }
-let nums = [1, 2, 1, 5, 2, 3, 10, 1, 9, 4, 3, 3, 7];
+let nums = [2, 4, 1, 1, 2];
 let targetSum = 10;
-
-let result = longestSubArrWithTargetSum(nums, targetSum);
-console.log(result);
+let output = SubarrayLargestWithTargetSum(nums, targetSum);
+console.log(output);
